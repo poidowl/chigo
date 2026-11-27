@@ -151,7 +151,45 @@ export function createSpeakerChigoV15(opts = {}) {
     }
   }
 
-  return { name, speak, reinforce };
+  /**
+   * 模倣発声（親や村の長老の50音を聞いてマネする）
+   */
+  function imitate(obsVec, targetIds, lr = 0.06) {
+    speak(obsVec, true);
+    const t1 = (targetIds[0] ?? KANA_START) - KANA_START;
+    const t2 = (targetIds[1] ?? KANA_START) - KANA_START;
+    const dh = new Float32Array(H);
+
+    for (let k = 0; k < KANA_COUNT; k++) {
+      const g1 = (k === t1 ? 1 : 0) - p1[k];
+      bc1[k] += lr * g1;
+      const r1 = k * H;
+      for (let i = 0; i < H; i++) {
+        dh[i] += Wc1[r1 + i] * g1;
+        Wc1[r1 + i] += lr * g1 * h[i];
+      }
+
+      const g2 = (k === t2 ? 1 : 0) - p2[k];
+      bc2[k] += lr * g2;
+      Wc2Prev[k * KANA_COUNT + t1] += lr * g2;
+      const r2 = k * H;
+      for (let i = 0; i < H; i++) {
+        dh[i] += Wc2[r2 + i] * g2;
+        Wc2[r2 + i] += lr * g2 * h[i];
+      }
+    }
+
+    for (let i = 0; i < H; i++) {
+      const dt = dh[i] * (1 - h[i] * h[i]);
+      b1[i] += lr * dt;
+      const row = i * obsDim;
+      for (let j = 0; j < obsDim; j++) {
+        if (obsVec[j] !== 0) W1[row + j] += lr * dt * obsVec[j];
+      }
+    }
+  }
+
+  return { name, speak, reinforce, imitate };
 }
 
 /**
