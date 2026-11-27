@@ -1,13 +1,14 @@
 {
   "name": "chigo",
-  "version": "0.9.0",
-  "description": "Zero-dependency Pure JavaScript non-LLM 50-kana Yamato-kotoba primitive AGI (v0-v9 evolution)",
+  "version": "0.10.0",
+  "description": "Zero-dependency Pure JavaScript non-LLM 50-kana Yamato-kotoba primitive AGI (v0-v10 evolution)",
   "type": "module",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
+    "talk": "node bin/chigo_talk.mjs",
     "bench:v0": "node bench/bench_v0.mjs",
     "bench:v1": "node bench/bench_v1.mjs",
     "chat:v2": "node bench/babies_chat_v2.mjs",
@@ -19,6 +20,7 @@
     "bench:v7": "node bench/bench_v7.mjs",
     "bench:v8": "node bench/bench_v8.mjs",
     "bench:v9": "node bench/bench_v9.mjs",
-    "bench:all": "node bench/bench_v0.mjs && node bench/bench_v1.mjs && node bench/bench_v3.mjs && node bench/bench_v4.mjs && node bench/bench_v5.mjs && node bench/bench_v6.mjs && node bench/bench_v7.mjs && node bench/bench_v8.mjs && node bench/bench_v9.mjs"
+    "bench:v10": "node bench/bench_v10.mjs",
+    "bench:all": "node bench/bench_v0.mjs && node bench/bench_v1.mjs && node bench/bench_v3.mjs && node bench/bench_v4.mjs && node bench/bench_v5.mjs && node bench/bench_v6.mjs && node bench/bench_v7.mjs && node bench/bench_v8.mjs && node bench/bench_v9.mjs && node bench/bench_v10.mjs"
   }
 }
